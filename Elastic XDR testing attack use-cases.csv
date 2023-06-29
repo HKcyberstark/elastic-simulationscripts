@@ -1,0 +1,18 @@
+,,,,
+Sr. No.,Attack Techniques,Trigger Condition,Simulation Script,Attack Category
+1,"UAC Bypass Attempt via Windows Directory Masquerading, Via Registry, via Sdclt","User Account Control (UAC) bypass attempt is detected by 
+masquerading as a Microsoft trusted Windows directory. Adversaries bypass UAC mechanisms to elevate process privileges on the system.User Account Control (UAC) bypass methods via changes 
+to HKCU:\Software\Classes\exefile\shell\runas\command\isolatedCommand and
+HKCU:\Software\Classes\Folder\shell\open\command","uac.py
+uac_disabled.py",Privilege Escalation
+2,Suspicious Scripting in a WMI Consumer,Suspicious scripting in the WMI Event Consumers.,wmi.py,Execution
+3,"Applocker Bypass Detected,WMIC XSL Script Execution, Application Whitelisting Bypass via Dxcap Detected,Suspicious WMIC XSL Script Execution, via DLL Loaded by 
+odbcconf Detected, via Bginfo Detected","The execution of executables like msdt, installutil, regsvcs, regasm or msbuild.ieexec is detected,Loading of a Windows Script module through wmic by Microsoft Core XML Services (MSXML) process is detected to bypass application whitelisting. Adversaries bypass the process and/or signature-based 
+defenses via odbcconf.exe execution to load DLL. Adversaries bypass the process and/or signature-based 
+defenses viaexecuting a VBscript code referenced within the .bgi file","obdconf.py
+xsl.py
+common.py",Defense Evasion
+4,"Active Directory Replication User Backdoor, AD Schema Change , AD Object WriteDAC Access Detected, Ad user group or Privlige group reconnaissance, Add SID Hsitory in AD Object","Modification of the security descriptor of a domain object for 
+granting Active Directory replication permissions to a user. The directory service object is changed, created, moved, 
+deleted, or restored.   WRITE_DAC, which can modify the discretionary accesscontrol list (DACL) in the object security descriptor, is detected.","we need more information about the lab env (&time) as most of the techniques listed here are done in the active directory DC, not the host. Can you share us more details on the Lab environment setup you will have for this attack scenario please.","Defense Evasion, Privilege Escalation"
+5,Load driver with expired certificate,Loading a driver signed with real certificate that is expired. ,cert.py,Execution
