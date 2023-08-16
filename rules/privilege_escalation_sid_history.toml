@@ -1,0 +1,67 @@
+[metadata]
+creation_date = "2023/08/15"
+integration = ["system", "windows"]
+maturity = "production"
+min_stack_comments = "New fields added: required_fields, related_integrations, setup"
+min_stack_version = "8.3.0"
+updated_date = "2023/08/15"
+
+[rule]
+author = ["Elastic"]
+description = """
+Identifies the occurrence of events related to the mofications of the SIDHistory attribute. By modifying this attribute,
+attackers can effectively grant themselves privileged rights to an account without having to add it to a privileged group.
+"""
+from = "now-9m"
+index = ["winlogbeat-*", "logs-system.*", "logs-windows.*"]
+language = "kuery"
+license = "Elastic License v2"
+name = "SIDHistory Injection Attempt"
+note = """## Setup
+
+The 'Audit User Account Management' logging policy must be configured for (Success, Failure).
+Steps to implement the logging policy with Advanced Audit Configuration:
+
+```
+Computer Configuration >
+Policies >
+Windows Settings >
+Security Settings >
+Advanced Audit Policies Configuration >
+Audit Policies >
+Account Management >
+Audit User Account Management (Success,Failure)
+```
+"""
+references = [
+    "https://adsecurity.org/?p=1772"
+]
+risk_score = 21
+rule_id = "23c47c93-b175-491c-bae1-32ab394a3ddc"
+severity = "low"
+tags = ["Domain: Endpoint", "OS: Windows", "Use Case: Threat Detection", "Tactic: Privilege Escalation", "Data Source: Active Directory", "Use Case: Active Directory Monitoring"]
+timestamp_override = "event.ingested"
+type = "query"
+
+query = '''
+host.os.type:windows and event.code: ("4765" or "4766")
+'''
+
+[[rule.threat]]
+framework = "MITRE ATT&CK"
+
+[[rule.threat.technique]]
+id = "T1134"
+reference = "https://attack.mitre.org/techniques/T1134/"
+name = "Access Token Manipulation"
+
+    [[rule.threat.technique.subtechnique]]
+    id = "T1134.005"
+    reference = "https://attack.mitre.org/techniques/T1134/005/"
+    name = "SID-History Injection"
+
+[rule.threat.tactic]
+id = "TA0004"
+name = "Privilege Escalation"
+reference = "https://attack.mitre.org/tactics/TA0004/"
+
